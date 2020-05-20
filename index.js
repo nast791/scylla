@@ -1,14 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const config = require('config');
-const keys = require('./keys');
+const config = require('./config');
 const path = require('path');
 
 
-const PORT = config.get('PORT');
-const MONGODB_URL = config.get('MONGODB_URL');
-// const PORT = keys.PORT;
-// const MONGODB_URL = keys.MONGODB_URL;
+const PORT = config.PORT;
+const MONGODB_URL = config.MONGODB_URL;
 
 
 const app = express();
