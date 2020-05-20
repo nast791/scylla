@@ -5,10 +5,10 @@ const keys = require('./keys');
 const path = require('path');
 
 
-// const PORT = config.get('PORT');
-// const MONGODB_URL = config.get('MONGODB_URL');
-const PORT = keys.PORT;
-const MONGODB_URL = keys.MONGODB_URL;
+const PORT = config.get('PORT');
+const MONGODB_URL = config.get('MONGODB_URL');
+// const PORT = keys.PORT;
+// const MONGODB_URL = keys.MONGODB_URL;
 
 
 const app = express();
