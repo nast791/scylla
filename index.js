@@ -5,6 +5,7 @@ const path = require('path');
 
 
 const PORT = config.PORT;
+const PORT_LINK = process.env.NODE_ENV === 'production' ? PORT : `http://localhost:${PORT}`;
 const MONGODB_URL = config.MONGODB_URL;
 
 
@@ -36,4 +37,4 @@ app.get('/', (req, res) => {
 // }
 // start();
 
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on ${PORT_LINK}`));
