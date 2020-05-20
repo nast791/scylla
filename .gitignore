@@ -4,5 +4,4 @@ client/node_modules
 package-lock.json
 package.info
 TODO.js
-config/default.json
-keys/keys.dev.js
+config/config.dev.js
