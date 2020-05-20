@@ -22,19 +22,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 });
 
-// async function start() {
-//   try {
-//     await mongoose.connect(MONGODB_URL, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//       useFindAndModify: false
-//     });
-//     app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
-//   } catch(e) {
-//     console.log(e.message);
-//     process.exit(1);
-//   }
-// }
-// start();
-
-app.listen(PORT, () => console.log(`Server is running on ${PORT_LINK}`));
+async function start() {
+  try {
+    await mongoose.connect(MONGODB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false
+    });
+    app.listen(PORT, () => console.log(`Server is running on ${PORT_LINK}`));
+  } catch(e) {
+    console.log(e.message);
+    process.exit(1);
+  }
+}
+start();
