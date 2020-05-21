@@ -1,6 +1,8 @@
 .idea
 node_modules
 client/node_modules
+client/.idea
+client/package-lock.json
 package-lock.json
 package.info
 TODO.js
