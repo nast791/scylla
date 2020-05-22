@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     background-color: #FFFFFF;
     overflow-x: hidden;
+    overflow-y: scroll;
   }
   
   *, *::before, *::after {

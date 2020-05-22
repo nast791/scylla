@@ -1,5 +1,5 @@
 import React from 'react';
-import {ContainerBody} from './_styles/Container';
+import {ContainerBody} from './_styles/container.styled';
 
 const Container = props => {
   return (
