@@ -1,19 +1,18 @@
-import {IS_MOUNTED_POPUP, TOGGLE_NAVBAR} from "../../utils/actions";
+import {POPUP_OPEN, POPUP_CLOSE} from "../../utils/actions";
 
 const initialState = {
-  mountedPopup: false,
-  openNavBar: false
+  popupName: null
 };
 
 export default function authChoice(state = initialState, action) {
   switch (action.type) {
-    case IS_MOUNTED_POPUP:
+    case POPUP_OPEN:
       return {
-        ...state, mountedPopup: action.value
+        ...state, popupName: action.value
       };
-    case TOGGLE_NAVBAR:
+    case POPUP_CLOSE:
       return {
-        ...state, openNavBar: action.value
+        ...state, popupName: null
       };
     default:
       return state;

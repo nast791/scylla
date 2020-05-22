@@ -1,15 +1,14 @@
-import {IS_MOUNTED_POPUP, TOGGLE_NAVBAR} from "../../utils/actions";
+import {POPUP_OPEN, POPUP_CLOSE} from "../../utils/actions";
 
-export function isMountedPopup(value) {
+export function popupOpen(value) {
   return {
-    type: IS_MOUNTED_POPUP,
+    type: POPUP_OPEN,
     value
   }
 }
 
-export function toggleNavBar(value) {
+export function popupClose() {
   return {
-    type: TOGGLE_NAVBAR,
-    value
+    type: POPUP_CLOSE
   }
 }
