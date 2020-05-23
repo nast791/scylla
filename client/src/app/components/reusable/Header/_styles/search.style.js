@@ -6,7 +6,7 @@ export const SearchBody = styled.div`
 `;
 export const SearchInput = styled.input`
   width: 230px;
-  height: 36px;
+  height: 32px;
   padding: 0 30px 0 15px;
   border-radius: 5px;
   border: 1px solid gray;

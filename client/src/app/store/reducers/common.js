@@ -4,7 +4,7 @@ const initialState = {
   popupName: null
 };
 
-export default function authChoice(state = initialState, action) {
+export default function common(state = initialState, action) {
   switch (action.type) {
     case POPUP_OPEN:
       return {
