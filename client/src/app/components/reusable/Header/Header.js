@@ -4,10 +4,21 @@ import {HeaderBlock, HeaderBody, HeaderBtn, HeaderLogo} from "./_styles/header.s
 import Search from "./chunks/Search";
 import {useSmoothScroll} from "../../../hooks/useSmoothScroll";
 import {connect} from "react-redux";
-import {popupOpen} from "../../../store/actions/common";
+import {authLogout, popupOpen} from "../../../store/actions/auth";
 
 const Header = props => {
   const {ref, scroll} = useSmoothScroll();
+
+  const authArea = props.auth ?
+    <HeaderBlock>
+      <p>{props.user.name}</p>
+      <p onClick={props.authLogout}>Выйти</p>
+    </HeaderBlock> :
+    <HeaderBlock>
+      <HeaderBtn onClick={props.popupOpen.bind(null, 'login')}>Войти</HeaderBtn>
+      <HeaderBtn onClick={props.popupOpen.bind(null, 'register')}>Зарегистрироваться</HeaderBtn>
+    </HeaderBlock>;
+
   return (
     <HeaderBody>
       <Container flex={true}>
@@ -15,19 +26,22 @@ const Header = props => {
           <HeaderLogo to="/" exact ref={ref} onClick={scroll}/>
           <Search/>
         </HeaderBlock>
-        <HeaderBlock>
-          <HeaderBtn onClick={props.popupOpen.bind(null, 'entry')}>Войти</HeaderBtn>
-          <HeaderBtn onClick={props.popupOpen.bind(null, 'register')}>Зарегистрироваться</HeaderBtn>
-        </HeaderBlock>
+        {authArea}
       </Container>
     </HeaderBody>
   );
 };
 
+function mapStateToProps(state) {
+  const {auth, user} = state.auth;
+  return {auth, user};
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     popupOpen: (value) => dispatch(popupOpen(value)),
+    authLogout: () => dispatch(authLogout()),
   };
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

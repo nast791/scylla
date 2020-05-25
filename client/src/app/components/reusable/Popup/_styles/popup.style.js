@@ -53,9 +53,13 @@ export const PopupInput = styled.input`
   border: 1px solid gray;
   border-radius: 5px;
 `;
+export const PopupErrors = styled.ul`
+  margin-top: 10px;
+`;
 export const PopupError = styled.p`
+  padding-top: 2px;
   color: #e64f29;
-  font-size: 12px;
+  font-size: 13px;
 `;
 export const PopupBtn = styled.button`
   width: 100%;
@@ -74,6 +78,10 @@ export const PopupBtn = styled.button`
   &:active {
     box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
   }
+`;
+export const PopupSuccess = styled.p`
+  text-align: center;
+  line-height: 26px;
 `;
 export const Overlay = styled.div`
   width: 100%;

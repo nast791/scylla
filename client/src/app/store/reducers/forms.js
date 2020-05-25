@@ -1,7 +1,7 @@
 import {CHANGE_FORM} from "../../utils/actions";
 
 const initialState = {
-  entry: {
+  login: {
     title: 'Войти',
     isFormValid: false,
     formControls: {
