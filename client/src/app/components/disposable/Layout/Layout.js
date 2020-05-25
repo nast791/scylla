@@ -10,14 +10,14 @@ const Layout = props => {
   return (
     <React.Fragment>
       <Body>{props.children}</Body>
-      {props.popupName && <Popup/>}
+      {props.popup && <Popup/>}
     </React.Fragment>
   );
 };
 
 function mapStateToProps(state) {
-  const {popupName} = state.common;
-  return {popupName};
+  const {popup} = state.auth;
+  return {popup};
 }
 
 export default connect(mapStateToProps, null)(Layout);
