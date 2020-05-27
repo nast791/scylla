@@ -19,13 +19,12 @@ const store = new MongoStore({
 
 app.use(express.json({extended: true}));
 app.use(session({secret: config.SESSION_SECRET, resave: false, saveUninitialized: false, store}));
+app.use(csurf());
 app.use('/api/auth', require('./server/routes/auth.routes'));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(csurf());
   app.use('/', express.static(path.join(__dirname, 'client', 'build')));
   app.get('*', (req, res) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }

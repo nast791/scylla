@@ -1,4 +1,5 @@
 import {
+  AUTH_CSRF,
   AUTH_ERROR,
   AUTH_LOADING,
   AUTH_LOGIN,
@@ -14,7 +15,8 @@ const initialState = {
   errors: false,
   auth: false,
   success: false,
-  popup: null
+  popup: null,
+  csrf: null
 };
 
 export default function auth(state = initialState, action) {
@@ -50,6 +52,10 @@ export default function auth(state = initialState, action) {
     case POPUP_CLOSE:
       return {
         ...state, popup: null, errors: false, success: false
+      };
+    case AUTH_CSRF:
+      return {
+        ...state, csrf: action.value
       };
     default:
       return state;

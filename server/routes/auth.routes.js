@@ -9,9 +9,9 @@ router.get('/', async (req, res) => {
   try {
     if (req.session.isAuthenticated) {
       const user = await User.findById(req.session.userId);
-      return res.json({user});
+      return res.json({user, csrf: req.csrfToken()});
     }
-    res.json({message: 'Сессия не найдена'});
+    res.json({csrf: req.csrfToken()});
   } catch (e) {
     res.status(500).json({message: 'Ошибка авторизации'});
   }

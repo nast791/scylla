@@ -45,7 +45,7 @@ const Popup = props => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.registerUser(`/api/auth/${props.popup}`, props[props.popup]);
+    props.registerUser(`/api/auth/${props.popup}`, props[props.popup], props.csrf);
   };
 
   if (props.success) {
@@ -77,8 +77,8 @@ const Popup = props => {
 
 function mapStateToProps(state) {
   const {login, register} = state.forms;
-  const {popup, loading, errors, success, auth} = state.auth;
-  return {popup, login, register, loading, success, errors, auth};
+  const {popup, loading, errors, success, auth, csrf} = state.auth;
+  return {popup, login, register, loading, success, errors, auth, csrf};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -86,7 +86,7 @@ function mapDispatchToProps(dispatch) {
     popupClose: () => dispatch(popupClose()),
     changeHandler: (event, form, formName, controlName) => dispatch(changeHandler(event, form, formName, controlName)),
     resetHandler: (form, formName) => dispatch(resetHandler(form, formName)),
-    registerUser: (url, form) => dispatch(registerUser(url, form)),
+    registerUser: (url, form, csrf) => dispatch(registerUser(url, form, csrf)),
     authError: (value) => dispatch(authError(value))
   };
 }
