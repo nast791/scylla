@@ -1,11 +1,11 @@
 import {useEffect} from "react";
 
-export const useToggleScrollBar = (props) => {
+export const useToggleScrollBar = (popup) => {
   useEffect(() => {
-    if (props && props.popupName) {
+    if (popup) {
       document.body.setAttribute('style', "overflow-y: hidden");
     } else {
       document.body.removeAttribute('style');
     }
-  }, [props.popupName]);
+  }, [popup]);
 };

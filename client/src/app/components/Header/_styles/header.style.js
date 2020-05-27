@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {NavLink} from "react-router-dom";
-import Icon from "../../../../../img/favicon.png";
+import Icon from "../../../../img/favicon.png";
 
 export const HeaderBody = styled.header`
   position: fixed;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Icon from "../../../../../img/search.svg";
+import Icon from "../../../../img/search.svg";
 
 export const SearchBody = styled.div`
   margin-left: 15px;
