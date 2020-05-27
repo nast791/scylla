@@ -18,7 +18,7 @@ export function registerUser(url, form) {
     });
     dispatch(authLoading(true));
     try {
-      const data = await useFetch(url, 'POST', body);
+      const data = await useFetch(url, 'POST', body).then(res => res.json());
       dispatch(authLoading(false));
       if (data.user) { // login
         dispatch(authSuccess(data.user));
@@ -31,12 +31,42 @@ export function registerUser(url, form) {
           dispatch(authRegSuccess(data.message));
         }
       }
-      console.log(data);
     } catch (e) {
       dispatch(authLoading(false));
       const msg = new Array(1).fill({msg: e.message});
       dispatch(authError(msg));
       console.log(msg);
+      throw e;
+    }
+  }
+}
+
+export function authUser(url) {
+  return async dispatch => {
+    dispatch(authLoading(true));
+    try {
+      const data = await useFetch(url).then(res => res.json());
+      if (data.user) {
+        dispatch(authSuccess(data.user));
+        dispatch(authLogin());
+      }
+      dispatch(authLoading(false));
+      console.log(data);
+    } catch (e) {
+      dispatch(authLoading(false));
+      console.log(e);
+      throw e;
+    }
+  }
+}
+
+export function logoutAuth(url) {
+  return async dispatch => {
+    try {
+      await useFetch(url);
+      dispatch(authLogout());
+    } catch (e) {
+      console.log(e);
       throw e;
     }
   }

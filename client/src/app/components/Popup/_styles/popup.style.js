@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const PopupBody = styled.div`
+export const PopupBody = styled.section`
   position: fixed;
   top: 0;
   left: 0;

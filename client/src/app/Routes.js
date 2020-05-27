@@ -1,10 +1,10 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import Layout from "./components/disposable/Layout/Layout";
-import Home from "./components/disposable/Home/Home";
-import Profile from "./components/disposable/Profile/Profile";
-import Editor from "./components/disposable/Editor/Editor";
-import Note from "./components/disposable/Note/Note";
+import Layout from "./components/Layout/Layout";
+import Home from "./components/_pages/Home/Home";
+import Profile from "./components/_pages/Profile/Profile";
+import Editor from "./components/_pages/Editor/Editor";
+import Note from "./components/_pages/Note/Note";
 
 const Routes = () => {
   return (

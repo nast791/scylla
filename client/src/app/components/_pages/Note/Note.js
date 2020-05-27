@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Editor = props => {
+const Note = () => {
   return (
     <React.Fragment>
-      <h1>Editor</h1>
+      <h1>Note</h1>
     </React.Fragment>
   );
 };
 
-export default Editor;
+export default Note;

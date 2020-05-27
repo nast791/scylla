@@ -1,6 +1,6 @@
 import React from 'react';
 import {ErrorBody, ErrorImage, ErrorText} from './_styles/Error';
-import ImageError from './../../../../img/error.png';
+import ImageError from './../../../img/favicon.png';
 
 const Error = props => (
   <ErrorBody>
