@@ -1,4 +1,5 @@
 import {
+  AUTH_CSRF,
   AUTH_ERROR,
   AUTH_LOADING,
   AUTH_LOGIN,
@@ -8,7 +9,7 @@ import {
 } from "../../utils/actions";
 import {useFetch} from "../../hooks/useFetch";
 
-export function registerUser(url, form) {
+export function registerUser(url, form, csrf) {
   return async dispatch => {
     dispatch(authError(false));
     const body = {};
@@ -18,7 +19,7 @@ export function registerUser(url, form) {
     });
     dispatch(authLoading(true));
     try {
-      const data = await useFetch(url, 'POST', body).then(res => res.json());
+      const data = await useFetch(url, 'POST', body, csrf).then(res => res.json());
       dispatch(authLoading(false));
       if (data.user) { // login
         dispatch(authSuccess(data.user));
@@ -50,8 +51,8 @@ export function authUser(url) {
         dispatch(authSuccess(data.user));
         dispatch(authLogin());
       }
+      dispatch(authCSRF(data.csrf));
       dispatch(authLoading(false));
-      console.log(data);
     } catch (e) {
       dispatch(authLoading(false));
       console.log(e);
@@ -122,5 +123,12 @@ export function popupOpen(value) {
 export function popupClose() {
   return {
     type: POPUP_CLOSE
+  }
+}
+
+export function authCSRF(value) {
+  return {
+    type: AUTH_CSRF,
+    value
   }
 }
