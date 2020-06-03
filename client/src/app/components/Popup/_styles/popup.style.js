@@ -79,10 +79,6 @@ export const PopupBtn = styled.button`
     box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
   }
 `;
-export const PopupSuccess = styled.p`
-  text-align: center;
-  line-height: 26px;
-`;
 export const Overlay = styled.div`
   width: 100%;
   height: 100%;

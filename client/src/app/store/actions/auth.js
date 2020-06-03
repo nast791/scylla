@@ -1,15 +1,13 @@
 import {
-  AUTH_CSRF,
   AUTH_ERROR,
   AUTH_LOADING,
   AUTH_LOGIN,
   AUTH_LOGOUT,
-  AUTH_REG,
   AUTH_SUCCESS, POPUP_CLOSE, POPUP_OPEN
 } from "../../utils/actions";
 import {useFetch} from "../../hooks/useFetch";
 
-export function registerUser(url, form, csrf) {
+export function registerUser(url, form) {
   return async dispatch => {
     dispatch(authError(false));
     const body = {};
@@ -17,21 +15,19 @@ export function registerUser(url, form, csrf) {
       const control = form.formControls[item];
       return body[item] = control.value;
     });
-    dispatch(authLoading(true));
     try {
-      const data = await useFetch(url, 'POST', body, csrf).then(res => res.json());
-      dispatch(authLoading(false));
+      const data = await useFetch(url, 'POST', body).then(res => res.json());
+      dispatch(authLoading(true));
       if (data.user) { // login
         dispatch(authSuccess(data.user));
-        dispatch(authLogin());
+        dispatch(authLogin(true));
         dispatch(popupClose());
-      } else { // register
-        if (data.errors) {
-          dispatch(authError(data.errors))
-        } else {
-          dispatch(authRegSuccess(data.message));
-        }
+      } else if (data.errors) { // register
+        dispatch(authError(data.errors))
+      } else {
+        dispatch(authError(data.message));
       }
+      dispatch(authLoading(false));
     } catch (e) {
       dispatch(authLoading(false));
       const msg = new Array(1).fill({msg: e.message});
@@ -49,12 +45,13 @@ export function authUser(url) {
       const data = await useFetch(url).then(res => res.json());
       if (data.user) {
         dispatch(authSuccess(data.user));
-        dispatch(authLogin());
+        dispatch(authLogin(true));
+      } else {
+        dispatch(authLogin(false));
       }
-      dispatch(authCSRF(data.csrf));
       dispatch(authLoading(false));
     } catch (e) {
-      dispatch(authLoading(false));
+      dispatch(authLogout());
       console.log(e);
       throw e;
     }
@@ -73,13 +70,6 @@ export function logoutAuth(url) {
   }
 }
 
-export function authRegSuccess(value) {
-  return {
-    type: AUTH_REG,
-    value
-  }
-}
-
 export function authSuccess(value) {
   return {
     type: AUTH_SUCCESS,
@@ -87,9 +77,10 @@ export function authSuccess(value) {
   }
 }
 
-export function authLogin() {
+export function authLogin(value) {
   return {
-    type: AUTH_LOGIN
+    type: AUTH_LOGIN,
+    value
   }
 }
 
@@ -123,12 +114,5 @@ export function popupOpen(value) {
 export function popupClose() {
   return {
     type: POPUP_CLOSE
-  }
-}
-
-export function authCSRF(value) {
-  return {
-    type: AUTH_CSRF,
-    value
   }
 }
