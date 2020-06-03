@@ -4,7 +4,6 @@ const config = require('./config');
 const path = require('path');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
-const csurf = require('csurf');
 
 const PORT = config.PORT;
 const PORT_LINK = process.env.NODE_ENV === 'production' ? PORT : `http://localhost:${PORT}`;
@@ -19,7 +18,6 @@ const store = new MongoStore({
 
 app.use(express.json({extended: true}));
 app.use(session({secret: config.SESSION_SECRET, resave: false, saveUninitialized: false, store}));
-app.use(csurf());
 app.use('/api/auth', require('./server/routes/auth.routes'));
 
 if (process.env.NODE_ENV === 'production') {

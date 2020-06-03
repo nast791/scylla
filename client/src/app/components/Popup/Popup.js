@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {connect} from "react-redux";
 import {useClickAway} from "react-use";
 import {
-  Overlay, PopupBody, PopupBtn, PopupCross, PopupError, PopupErrors, PopupField, PopupForm, PopupInput, PopupSuccess,
+  Overlay, PopupBody, PopupBtn, PopupCross, PopupError, PopupErrors, PopupField, PopupForm, PopupInput,
   PopupTitle
 } from "./_styles/popup.style";
 import {changeHandler, resetHandler} from "../../store/actions/forms";
@@ -45,26 +45,14 @@ const Popup = props => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.registerUser(`/api/auth/${props.popup}`, props[props.popup], props.csrf);
+    props.registerUser(`/api/auth/${props.popup}`, props[props.popup]);
   };
 
-  if (props.success) {
-    return (
-      <PopupBody>
-        <PopupForm ref={ref} as="div">
-          <PopupCross onClick={props.popupClose} title="Закрыть">{cross}</PopupCross>
-          {props.success && <PopupSuccess>{props.success}<br/>Спасибо за регистрацию!</PopupSuccess>}
-        </PopupForm>
-        <Overlay/>
-      </PopupBody>
-    );
-  }
 
   return (
     <PopupBody>
       <PopupForm ref={ref} onSubmit={submitHandler}>
         <PopupCross onClick={props.popupClose} title="Закрыть">{cross}</PopupCross>
-        {props.success && <PopupSuccess>{props.success}</PopupSuccess>}
         <PopupTitle>{props[props.popup].title}</PopupTitle>
         {renderInputs()}
         <PopupBtn type="submit" disabled={!props[props.popup].isFormValid || props.loading}>Отправить</PopupBtn>
@@ -77,8 +65,8 @@ const Popup = props => {
 
 function mapStateToProps(state) {
   const {login, register} = state.forms;
-  const {popup, loading, errors, success, auth, csrf} = state.auth;
-  return {popup, login, register, loading, success, errors, auth, csrf};
+  const {popup, loading, errors, auth} = state.auth;
+  return {popup, login, register, loading, errors, auth};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -86,7 +74,7 @@ function mapDispatchToProps(dispatch) {
     popupClose: () => dispatch(popupClose()),
     changeHandler: (event, form, formName, controlName) => dispatch(changeHandler(event, form, formName, controlName)),
     resetHandler: (form, formName) => dispatch(resetHandler(form, formName)),
-    registerUser: (url, form, csrf) => dispatch(registerUser(url, form, csrf)),
+    registerUser: (url, form) => dispatch(registerUser(url, form)),
     authError: (value) => dispatch(authError(value))
   };
 }

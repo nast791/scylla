@@ -9,9 +9,9 @@ router.get('/', async (req, res) => {
   try {
     if (req.session.isAuthenticated) {
       const user = await User.findById(req.session.userId);
-      return res.json({user, csrf: req.csrfToken()});
+      return res.json({user});
     }
-    res.json({csrf: req.csrfToken()});
+    res.json({message: 'Пользователь не найден'});
   } catch (e) {
     res.status(500).json({message: 'Ошибка авторизации'});
   }
@@ -30,7 +30,12 @@ router.post('/register', registerValidators, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await User({nickname, name, email, password: hashedPassword});
     await user.save();
-    res.status(201).json({message: 'Новый пользователь создан'});
+    req.session.userId = user._id; // вход
+    req.session.isAuthenticated = true;
+    req.session.save(err => {
+      if (err) throw err;
+    });
+    res.json({ user });
   } catch (e) {
     res.status(500).json({message: 'Ошибка регистрации'});
   }
