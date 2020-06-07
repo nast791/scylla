@@ -13,6 +13,10 @@ function validateControl(form, value, validation) {
     isValid = is.email(value) && isValid;
   }
 
+  if (validation.date) {
+    isValid = is.dateString(value.split('-').reverse().join('/')) && isValid; // '01/01/1991'
+  }
+
   if (validation.minLength) {
     isValid = value.length >= validation.minLength && isValid;
   }
@@ -59,6 +63,17 @@ export function resetHandler(form, formName) {
       clonedForm.formControls[item].touched = false;
       clonedForm.formControls[item].valid = false;
     });
+    dispatch(changeForm(clonedForm, formName));
+  }
+}
+
+export function addData(form, formName, data) {
+  return dispatch => {
+    const clonedForm = {...form};
+    Object.keys(clonedForm.formControls).forEach((item) => {
+      clonedForm.formControls[item].value = data[item] ? data[item] : '';
+    });
+
     dispatch(changeForm(clonedForm, formName));
   }
 }

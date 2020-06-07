@@ -1,19 +1,27 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Container from "../Container/Container";
-import {HeaderBlock, HeaderBody, HeaderBtn, HeaderLogo} from "./_styles/header.style";
+import {HeaderAvatar, HeaderBlock, HeaderBody, HeaderBtn, HeaderLogo, HeaderName} from "./_styles/header.style";
 import Search from "./chunks/Search";
 import {useSmoothScroll} from "../../hooks/useSmoothScroll";
 import {connect} from "react-redux";
-import {logoutAuth, popupOpen} from "../../store/actions/auth";
+import {popupOpen} from "../../store/actions/auth";
 import Spinner from "../Spinner/Spinner";
+import {toggleNav} from "../../store/actions/common";
+import Nav from "./chunks/Nav";
+import {useClickAway} from "react-use";
 
 const Header = props => {
   const {ref, scroll} = useSmoothScroll();
+  const navRef = useRef('');
+  useClickAway(navRef, () => {
+    props.toggleNav(false);
+  });
 
   const authArea = props.auth ?
-    <HeaderBlock>
-      <p>{props.user.name}</p>
-      <p onClick={props.logoutAuth.bind(null, '/api/auth/logout')}>Выйти</p>
+    <HeaderBlock onClick={props.toggleNav.bind(null, !props.navBar)} ref={navRef} flex={true}>
+      <HeaderName>{props.user.name}</HeaderName>
+      <HeaderAvatar/>
+      {props.navBar && <Nav/>}
     </HeaderBlock> :
     <HeaderBlock>
       <HeaderBtn onClick={props.popupOpen.bind(null, 'login')}>Войти</HeaderBtn>
@@ -35,13 +43,14 @@ const Header = props => {
 
 function mapStateToProps(state) {
   const {auth, user, loading} = state.auth;
-  return {auth, user, loading};
+  const {navBar} = state.common;
+  return {auth, user, loading, navBar};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     popupOpen: (value) => dispatch(popupOpen(value)),
-    logoutAuth: (url) => dispatch(logoutAuth(url)),
+    toggleNav: (value) => dispatch(toggleNav(value)),
   };
 }
 
