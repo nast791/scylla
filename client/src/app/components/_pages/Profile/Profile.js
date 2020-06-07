@@ -1,9 +1,12 @@
 import React from 'react';
+import Header from "../../Header/Header";
+import UserData from "./chunks/UserData";
 
 const Profile = () => {
   return (
     <React.Fragment>
-      <h1>Profile</h1>
+      <Header/>
+      <UserData/>
     </React.Fragment>
   );
 };

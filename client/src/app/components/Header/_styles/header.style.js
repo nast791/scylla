@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {NavLink} from "react-router-dom";
 import Icon from "../../../../img/favicon.png";
+import UserIcon from "../../../../img/user.svg";
 
 export const HeaderBody = styled.header`
   position: fixed;
@@ -12,14 +13,15 @@ export const HeaderBody = styled.header`
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
 `;
 export const HeaderBlock = styled.div`
+  position: relative;
   display: ${(props) => props.flex ? 'flex' : 'block'};
   justify-content: ${(props) => props.flex && (props.flex !== 'jc-start') ? 'space-between' : ''};
   align-items: ${(props) => props.flex && (props.flex !== 'ai-start') ? 'center' : ''};
 `;
 export const HeaderLogo = styled(NavLink)`
   display: inline-block;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   background-image:url(${Icon});
   background-repeat: no-repeat;
   background-size: cover;
@@ -39,4 +41,23 @@ export const HeaderBtn = styled.button`
     opacity: 1;
     color: #6e6e6e;
   }
+`;
+export const HeaderName = styled.p`
+  margin-top: 3px;
+  padding-left: 15px;
+  font-size: 16px;
+  line-height: 16px;
+  cursor: pointer;
+`;
+export const HeaderAvatar = styled.div`
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-image: url(${UserIcon});
+  background-repeat: no-repeat;
+  background-position:50% 50%;
+  background-size: 30px auto;
+  overflow: hidden;
+  cursor: pointer;
 `;
