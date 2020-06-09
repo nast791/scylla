@@ -1,4 +1,4 @@
-import {CHANGE_FORM} from "../../utils/actions";
+import {FORM_CHANGE} from "../../utils/actions";
 
 const initialState = {
   login: {
@@ -143,32 +143,24 @@ const initialState = {
           noSpaces: true
         }
       },
-      gender: { //переделать
+      gender: {
         value: '',
-        type: 'text',
+        options: ['Мужской', 'Женский'],
+        type: 'radio',
         label: 'Пол',
-        errorMessage: 'Введите не менее 3 символов без пробелов',
-        valid: false,
+        errorMessage: '',
+        valid: true,
         touched: false,
-        trim: true,
-        validation: {
-          minLength: 3,
-          noSpaces: true
-        }
+        trim: false
       },
       birthDate: {
         value: '',
         type: 'date',
         label: 'Дата рождения',
-        errorMessage: 'Введите корректную дату',
+        errorMessage: '',
         valid: false,
         touched: false,
-        trim: true,
-        validation: {
-          minLength: 3,
-          noSpaces: true,
-          date: true
-        }
+        trim: false
       },
       city: {
         value: '',
@@ -179,18 +171,15 @@ const initialState = {
         touched: false,
         trim: false
       },
-      family: { //переделать
+      family: {
         value: '',
-        type: 'text',
+        type: 'select',
+        options: ['', 'В поиске', 'Есть вторая половинка', 'В браке', 'Все сложно'],
         label: 'Семейное положение',
-        errorMessage: 'Введите не менее 3 символов без пробелов',
-        valid: false,
+        errorMessage: '',
+        valid: true,
         touched: false,
-        trim: true,
-        validation: {
-          minLength: 3,
-          noSpaces: true
-        }
+        trim: false,
       },
       status: {
         value: '',
@@ -226,7 +215,7 @@ const initialState = {
 
 export default function common(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_FORM:
+    case FORM_CHANGE:
       return {
         ...state, [action.formName]: action.form
       };
