@@ -1,5 +1,5 @@
 import is from 'is_js';
-import {CHANGE_FORM} from "../../utils/actions";
+import {FORM_CHANGE} from "../../utils/actions";
 
 function validateControl(form, value, validation) {
   if (!validation) return true;
@@ -11,10 +11,6 @@ function validateControl(form, value, validation) {
 
   if (validation.email) {
     isValid = is.email(value) && isValid;
-  }
-
-  if (validation.date) {
-    isValid = is.dateString(value.split('-').reverse().join('/')) && isValid; // '01/01/1991'
   }
 
   if (validation.minLength) {
@@ -80,7 +76,7 @@ export function addData(form, formName, data) {
 
 export function changeForm(form, formName) {
   return {
-    type: CHANGE_FORM,
+    type: FORM_CHANGE,
     form, formName
   }
 }

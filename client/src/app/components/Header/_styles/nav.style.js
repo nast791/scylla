@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 export const NavBody = styled.ul`
   position: absolute;
   content: "";
-  top: calc(100% + 15px);
+  top: calc(100% + 12px);
   right: 0;
   width: 200px;
   padding: 5px 0;
