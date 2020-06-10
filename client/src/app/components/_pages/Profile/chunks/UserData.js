@@ -2,8 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import DefaultAvatar from "../../../../../img/user.svg";
 import AddIcon from "../../../../../img/add-img.svg";
 import {
-  UserAnketa,
-  UserAnketaCheckbox,
+  UserAnketa, UserAnketaBtn,
+  UserAnketaCheckbox, UserAnketaError, UserAnketaErrors,
   UserAnketaGroup,
   UserAnketaInput,
   UserAnketaItem,
@@ -15,18 +15,19 @@ import {
   UserAvatarImage,
   UserAvatarInput,
   UserBody,
-  UserForm
+  UserForm, UserServerError
 } from "../_styles/userData.style";
 import Container from "../../../Container/Container";
 import {connect} from "react-redux";
-import {addData, changeHandler} from "../../../../store/actions/forms";
+import {addData, changeHandler, resetHandler} from "../../../../store/actions/forms";
 import {useClickAway} from "react-use";
+import {refreshUser} from "../../../../store/actions/auth";
 
 const UserData = props => {
-  const fileInput = useRef('');
-  const [url, setUrl] = useState(DefaultAvatar);
-  const handler = () => {
-    setUrl(URL.createObjectURL(fileInput.current.files[0]));
+  const [url, setUrl] = useState(props.profile.formControls.avatar.value);
+  const handler = event => {
+    setUrl(URL.createObjectURL(event.target.files[0]));
+    props.changeHandler(event, props.profile, 'profile', 'avatar');
   };
   const [select, setSelect] = useState(false);
   const selectRef = useRef('');
@@ -42,18 +43,18 @@ const UserData = props => {
       const control = props.profile.formControls[item];
       if (control.type === 'radio') {
         return (
-          <UserAnketaItem key={item + index}>
+          <UserAnketaItem key={item + index} data-hr={control.data}>
             <UserAnketaLabel>{control.label}</UserAnketaLabel>
             <UserAnketaGroup>{control.options.map((it, idx) => {
               return (<UserAnketaWrapper key={it + idx}>
-                <UserAnketaInput type={control.type} name={item} value={it} onChange={event => props.changeHandler(event, props.profile, 'profile', item)}/><UserAnketaCheckbox/><UserAnketaValue>{it}</UserAnketaValue>
+                <UserAnketaInput type={control.type} name={item} value={it} onChange={event => props.changeHandler(event, props.profile, 'profile', item)} checked={control.value === it}/><UserAnketaCheckbox/><UserAnketaValue>{it}</UserAnketaValue>
               </UserAnketaWrapper>)})}
             </UserAnketaGroup>
           </UserAnketaItem>
         )
       } else if (control.type === 'select') {
         return (
-          <UserAnketaItem key={item + index} ref={selectRef}>
+          <UserAnketaItem key={item + index} ref={selectRef} data-hr={control.data}>
             <UserAnketaLabel>{control.label}</UserAnketaLabel>
             <UserAnketaSelect onClick={setSelect.bind(null, !select)} type="button" data-options={select}>{control.value === '' ? 'Не выбрано' : control.value}</UserAnketaSelect>
             {select && <UserAnketaOptions>{control.options.map((it, idx) => {
@@ -65,28 +66,45 @@ const UserData = props => {
         )
       }
 
-      return (
-        <UserAnketaItem key={item + index}>
-          <UserAnketaLabel>{control.label}</UserAnketaLabel>
-          <UserAnketaInput type={control.type} name={item} value={control.value} onChange={event => props.changeHandler(event, props.profile, 'profile', item)} readOnly={control.readonly}/>
-          {!!control.validation && !control.valid && control.touched && <p>{control.errorMessage}</p>}
-        </UserAnketaItem>
-      )
+      if (control.type !== 'file') {
+        return (
+          <UserAnketaItem key={item + index} data-hr={control.data ? true : false}>
+            <UserAnketaLabel>{control.label}</UserAnketaLabel>
+            <UserAnketaInput type={control.type} name={item} value={control.value} onChange={event => props.changeHandler(event, props.profile, 'profile', item)} readOnly={control.readonly}/>
+            {!!control.validation && !control.valid && control.touched && <UserAnketaError>{control.errorMessage}</UserAnketaError>}
+          </UserAnketaItem>
+        )
+      }
     });
+  };
+
+  const renderErrors = () => {
+    return props.errors.map((it, idx) => {
+      return <UserServerError as="li" key={idx}>{it.msg}</UserServerError>
+    });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    props.refreshUser(`/api/profile/refresh-user`, props.profile);
+    props.resetHandler(props.profile, 'profile');
   };
 
   return (
     <UserBody>
       <Container>
-        <UserForm>
+        <UserForm onSubmit={submitHandler} encType="multipart/form-data">
           <UserAvatar title="Загрузите изображение">
-            <UserAvatarInput type="file" name="avatar" data-type="avatar" multiple={false} ref={fileInput} onChange={handler}/>
+            <UserAvatarInput type="file" name="avatar" data-type="avatar" data-url={url} multiple={false} onChange={handler}/>
             <UserAvatarImage src={url} alt=""/>
             <UserAvatarIcon src={AddIcon} alt=""/>
           </UserAvatar>
           <UserAnketa>
             <UserAnketaTitle>{props.profile.title}</UserAnketaTitle>
             {renderInputs()}
+            <UserAnketaBtn type="submit" disabled={!props.profile.isFormValid || !props.profile.isFormTouched || props.loading}>Сохранить</UserAnketaBtn>
+            {props.errors && <UserAnketaErrors>{renderErrors()}</UserAnketaErrors>}
+            {props.result && <UserAnketaErrors><UserServerError>{props.result}</UserServerError></UserAnketaErrors>}
           </UserAnketa>
         </UserForm>
       </Container>
@@ -96,14 +114,16 @@ const UserData = props => {
 
 function mapStateToProps(state) {
   const {profile} = state.forms;
-  const {user} = state.auth;
-  return {profile, user};
+  const {user, errors, result} = state.auth;
+  return {profile, user, errors, result};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     changeHandler: (event, form, formName, controlName) => dispatch(changeHandler(event, form, formName, controlName)),
     addData: (form, formName, data) => dispatch(addData(form, formName, data)),
+    refreshUser: (url, form) => dispatch(refreshUser(url, form)),
+    resetHandler: (form, formName) => dispatch(resetHandler(form, formName)),
   };
 }
 

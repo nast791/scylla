@@ -38,10 +38,16 @@ export function changeHandler(event, form, formName, controlName) {
     const clonedForm = {...form};
     const control = clonedForm.formControls[controlName];
 
-    control.value = control.trim ? event.target.value.trim() : event.target.value;
+    if (control.type === 'file') {
+      control.value = event.target.files[0];
+      console.log(1, event.target.files[0]);
+    } else {
+      control.value = control.trim ? event.target.value.trim() : event.target.value;
+    }
     control.touched = true;
     control.valid = validateControl(form, control.value, control.validation);
     clonedForm.isFormValid = true;
+    clonedForm.isFormTouched = true;
     Object.keys(clonedForm.formControls).forEach((item) => {
       clonedForm.isFormValid = clonedForm.formControls[item].valid && clonedForm.isFormValid;
     });
@@ -53,11 +59,14 @@ export function changeHandler(event, form, formName, controlName) {
 export function resetHandler(form, formName) {
   return dispatch => {
     const clonedForm = {...form};
-    clonedForm.isFormValid = false;
+    clonedForm.isFormValid = formName === 'profile';
+    clonedForm.isFormTouched = false;
     Object.keys(clonedForm.formControls).forEach((item) => {
-      clonedForm.formControls[item].value = '';
+      if (formName !== 'profile') {
+        clonedForm.formControls[item].value = '';
+        clonedForm.formControls[item].valid = false;
+      }
       clonedForm.formControls[item].touched = false;
-      clonedForm.formControls[item].valid = false;
     });
     dispatch(changeForm(clonedForm, formName));
   }

@@ -38,6 +38,35 @@ export function registerUser(url, form) {
   }
 }
 
+export function refreshUser(url, form) {
+  return async dispatch => {
+    dispatch(authError(false));
+    const body = {};
+    Object.keys(form.formControls).map(item => {
+      const control = form.formControls[item];
+      return body[item] = control.value;
+    });
+    try {
+      const data = await useFetch(url, 'POST', body).then(res => res.json());
+      dispatch(authLoading(true));
+      if (data.user && data.msg) {
+        dispatch(authSuccess(data.user, data.msg));
+      } else if (data.errors) {
+        dispatch(authError(data.errors))
+      } else {
+        dispatch(authError(data.message));
+      }
+      dispatch(authLoading(false));
+    } catch (e) {
+      dispatch(authLoading(false));
+      const msg = new Array(1).fill({msg: e.message});
+      dispatch(authError(msg));
+      console.log(msg);
+      throw e;
+    }
+  }
+}
+
 export function authUser(url) {
   return async dispatch => {
     dispatch(authLoading(true));
@@ -70,10 +99,10 @@ export function logoutAuth(url) {
   }
 }
 
-export function authSuccess(value) {
+export function authSuccess(value, result = null) {
   return {
     type: AUTH_SUCCESS,
-    value
+    value, result
   }
 }
 

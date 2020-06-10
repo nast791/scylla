@@ -1,9 +1,11 @@
 import {FORM_CHANGE} from "../../utils/actions";
+import DefaultAvatar from "../../../img/user.svg";
 
 const initialState = {
   login: {
     title: 'Войти',
     isFormValid: false,
+    isFormTouched: false,
     formControls: {
       email: {
         value: '',
@@ -37,6 +39,7 @@ const initialState = {
   register: {
     title: 'Зарегистрироваться',
     isFormValid: false,
+    isFormTouched: false,
     formControls: {
       nickname: {
         value: '',
@@ -57,13 +60,13 @@ const initialState = {
         value: '',
         type: 'text',
         label: 'Имя',
-        errorMessage: 'Введите не менее 3 и не более 20 символов без пробелов',
+        errorMessage: 'Введите не менее 2 и не более 20 символов без пробелов',
         valid: false,
         touched: false,
         trim: true,
         validation: {
           required: true,
-          minLength: 3,
+          minLength: 2,
           maxLength: 20,
           noSpaces: true
         }
@@ -114,19 +117,50 @@ const initialState = {
   },
   profile: {
     title: 'Профиль',
-    isFormValid: false,
+    isFormValid: true,
+    isFormTouched: false,
     formControls: {
+      avatar: {
+        value: DefaultAvatar,
+        type: 'file',
+        label: 'Аватар',
+        errorMessage: '',
+        valid: true,
+        touched: false,
+        trim: false,
+      },
+      nickname: {
+        value: '',
+        type: 'text',
+        label: 'Никнейм',
+        errorMessage: '',
+        valid: true,
+        touched: false,
+        trim: false,
+        readonly: true
+      },
+      email: {
+        value: '',
+        type: 'email',
+        label: 'Email',
+        errorMessage: '',
+        valid: true,
+        touched: false,
+        trim: false,
+        readonly: true
+      },
       name: {
         value: '',
         type: 'text',
         label: 'Имя',
-        errorMessage: 'Введите не менее 3 и не более 20 символов без пробелов',
-        valid: false,
+        data: 'true',
+        errorMessage: 'Введите не менее 2 и не более 20 символов без пробелов',
+        valid: true,
         touched: false,
         trim: true,
         validation: {
           required: true,
-          minLength: 3,
+          minLength: 2,
           maxLength: 20,
           noSpaces: true
         }
@@ -136,7 +170,7 @@ const initialState = {
         type: 'text',
         label: 'Фамилия',
         errorMessage: 'Введите слово без пробелов',
-        valid: false,
+        valid: true,
         touched: false,
         trim: true,
         validation: {
@@ -158,7 +192,7 @@ const initialState = {
         type: 'date',
         label: 'Дата рождения',
         errorMessage: '',
-        valid: false,
+        valid: true,
         touched: false,
         trim: false
       },
@@ -167,7 +201,7 @@ const initialState = {
         type: 'text',
         label: 'Родной город',
         errorMessage: '',
-        valid: false,
+        valid: true,
         touched: false,
         trim: false
       },
@@ -186,7 +220,7 @@ const initialState = {
         type: 'text',
         label: 'Статус',
         errorMessage: '',
-        valid: false,
+        valid: true,
         touched: false,
         trim: false
       },
@@ -195,19 +229,9 @@ const initialState = {
         type: 'text',
         label: 'Увлечения',
         errorMessage: '',
-        valid: false,
+        valid: true,
         touched: false,
         trim: false
-      },
-      email: {
-        value: '',
-        type: 'email',
-        label: 'Email',
-        errorMessage: '',
-        valid: false,
-        touched: false,
-        trim: true,
-        readonly: true
       }
     }
   },

@@ -12,7 +12,7 @@ exports.registerValidators = [
     .custom(value => !value.trim().includes(' ')).withMessage('В никнейме не должно быть пробелов')
     .trim().escape(),
   body('name')
-    .isLength({min: 3, max: 20}).withMessage('Разрешенная длина имени - от 3 до 20 символов')
+    .isLength({min: 2, max: 20}).withMessage('Разрешенная длина имени - от 2 до 20 символов')
     .custom(value => !value.trim().includes(' ')).withMessage('В имени не должно быть пробелов')
     .trim().escape(),
   body('email')
@@ -31,4 +31,11 @@ exports.registerValidators = [
   body('confirm')
     .custom((value, {req}) => value === req.body.password).withMessage('Пароли должны совпадать')
     .trim(),
+];
+
+exports.refreshUserValidators = [
+  body('name')
+    .isLength({min: 2, max: 20}).withMessage('Разрешенная длина имени - от 2 до 20 символов')
+    .custom(value => !value.trim().includes(' ')).withMessage('В имени не должно быть пробелов')
+    .trim().escape()
 ];
