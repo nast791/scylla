@@ -12,14 +12,15 @@ const initialState = {
   loading: false,
   errors: false,
   auth: null,
-  popup: null
+  popup: null,
+  result: null
 };
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
     case AUTH_SUCCESS:
       return {
-        ...state, user: action.value
+        ...state, user: action.value, result: action.result
       };
     case AUTH_LOGIN:
       return {
@@ -27,7 +28,7 @@ export default function auth(state = initialState, action) {
       };
     case AUTH_LOGOUT:
       return {
-        ...state, user: null, loading: false, errors: false, auth: false
+        ...state, user: null, loading: false, errors: false, auth: false, result: null
       };
     case AUTH_LOADING:
       return {
@@ -43,7 +44,7 @@ export default function auth(state = initialState, action) {
       };
     case POPUP_CLOSE:
       return {
-        ...state, popup: null, errors: false
+        ...state, popup: null, errors: false, result: null
       };
     default:
       return state;

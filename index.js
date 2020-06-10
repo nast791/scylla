@@ -19,6 +19,7 @@ const store = new MongoStore({
 app.use(express.json({extended: true}));
 app.use(session({secret: config.SESSION_SECRET, resave: false, saveUninitialized: false, store}));
 app.use('/api/auth', require('./server/routes/auth.routes'));
+app.use('/api/profile', require('./server/routes/profile.routes'));
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'build')));
@@ -33,7 +34,7 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
-      useCreateIndex: true
+      useCreateIndex: true,
     });
     app.listen(PORT, () => console.log(`Server is running on ${PORT_LINK}`));
   } catch(e) {

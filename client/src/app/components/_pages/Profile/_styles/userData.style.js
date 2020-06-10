@@ -33,6 +33,8 @@ export const UserAvatarIcon = styled.img`
 `;
 
 export const UserAnketa = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   flex: 1;
 `;
 export const UserAnketaTitle = styled.h1`
@@ -45,7 +47,12 @@ export const UserAnketaItem = styled.label`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  width: 100%;
+  margin-bottom: 20px;
+  
+  &[data-hr="true"] {
+    margin-top: 50px;
+  }
 `;
 export const UserAnketaLabel = styled.p`
   width: 200px;
@@ -78,6 +85,12 @@ export const UserAnketaInput = styled.input`
   border: 1px solid gray;
   border-radius: 5px;
   
+  &[readonly] {
+    background-color: #eceff1;
+    color: darkgray;
+    border: 1px solid darkgray;
+  }
+  
   &[type="radio"] {
     display: none;
     
@@ -93,6 +106,24 @@ export const UserAnketaInput = styled.input`
       border-radius: 5px;
     }
   }
+`;
+export const UserAnketaErrors = styled.ul`
+  width: 100%;
+  margin-left: 200px;
+`;
+export const UserAnketaError = styled.p`
+  position: absolute;
+  content: "";
+  top: 100%;
+  left: 200px;
+  padding-top: 2px;
+  color: #e64f29;
+  font-size: 10px;
+`;
+export const UserServerError = styled(UserAnketaError)`
+  position: static;
+  padding-top: 5px;
+  font-size: 12px;
 `;
 export const UserAnketaValue = styled.span`
   padding-top: 3px;
@@ -148,5 +179,24 @@ export const UserAnketaOption = styled.label`
   
   &:hover {
     background-color: rgba(139, 220, 247, 0.3);
+  }
+`;
+export const UserAnketaBtn = styled.button`
+  width: 100%;
+  height: 45px;
+  margin-left: 200px;
+  margin-top: 30px;
+  font-weight: 600;
+  text-transform:uppercase;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+  background-color: #e6765a;
+  border-radius: 5px;
+  &:hover {
+    opacity: 1;
+    filter: brightness(108%);
+  }
+  &:active {
+    box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
   }
 `;

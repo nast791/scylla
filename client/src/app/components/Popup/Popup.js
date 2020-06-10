@@ -55,7 +55,7 @@ const Popup = props => {
         <PopupCross onClick={props.popupClose} title="Закрыть">{cross}</PopupCross>
         <PopupTitle>{props[props.popup].title}</PopupTitle>
         {renderInputs()}
-        <PopupBtn type="submit" disabled={!props[props.popup].isFormValid || props.loading}>Отправить</PopupBtn>
+        <PopupBtn type="submit" disabled={!props[props.popup].isFormValid || !props[props.popup].isFormTouched || props.loading}>Отправить</PopupBtn>
         {props.errors && <PopupErrors>{renderErrors()}</PopupErrors>}
       </PopupForm>
       <Overlay/>
