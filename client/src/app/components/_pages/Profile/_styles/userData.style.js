@@ -8,12 +8,16 @@ export const UserForm = styled.form`
   display: flex;
   justify-content: space-between;
 `;
+export const UserAvatarWrapper = styled.div`
+  margin-right: 5%;
+`;
 export const UserAvatar = styled.label`
+display: block;
   position: relative;
   width: 350px;
   min-width: 350px;
   height: 350px;
-  margin-right: 5%;
+
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
@@ -30,6 +34,11 @@ export const UserAvatarIcon = styled.img`
   transform: translateX(-50%);
   bottom: 10px;
   width: 30px;
+`;
+export const UserAvatarNote = styled.p`
+  margin-top: 5px;
+  font-size: 10px;
+  text-align:center;
 `;
 
 export const UserAnketa = styled.div`

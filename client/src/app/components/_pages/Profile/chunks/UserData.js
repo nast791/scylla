@@ -13,7 +13,7 @@ import {
   UserAvatar,
   UserAvatarIcon,
   UserAvatarImage,
-  UserAvatarInput,
+  UserAvatarInput, UserAvatarNote, UserAvatarWrapper,
   UserBody,
   UserForm, UserServerError
 } from "../_styles/userData.style";
@@ -23,20 +23,18 @@ import {addData, changeHandler, resetHandler} from "../../../../store/actions/fo
 import {useClickAway} from "react-use";
 import {refreshUser} from "../../../../store/actions/auth";
 
+
 const UserData = props => {
-  const [url, setUrl] = useState(props.profile.formControls.avatar.value);
-  const handler = event => {
-    setUrl(URL.createObjectURL(event.target.files[0]));
-    props.changeHandler(event, props.profile, 'profile', 'avatar');
-  };
+  useEffect(() => {
+    props.addData(props.profile, 'profile', props.user);
+  }, [props.user]);
+
+  const [note, setNote] = useState(false);
   const [select, setSelect] = useState(false);
   const selectRef = useRef('');
   useClickAway(selectRef, () => {
     setSelect(false);
   });
-  useEffect(() => {
-    props.addData(props.profile, 'profile', props.user);
-  }, [props.user]);
 
   const renderInputs = () => {
     return Object.keys(props.profile.formControls).map((item, index) => {
@@ -68,7 +66,7 @@ const UserData = props => {
 
       if (control.type !== 'file') {
         return (
-          <UserAnketaItem key={item + index} data-hr={control.data ? true : false}>
+          <UserAnketaItem key={item + index} data-hr={control.data}>
             <UserAnketaLabel>{control.label}</UserAnketaLabel>
             <UserAnketaInput type={control.type} name={item} value={control.value} onChange={event => props.changeHandler(event, props.profile, 'profile', item)} readOnly={control.readonly}/>
             {!!control.validation && !control.valid && control.touched && <UserAnketaError>{control.errorMessage}</UserAnketaError>}
@@ -84,7 +82,21 @@ const UserData = props => {
     });
   };
 
-  const submitHandler = (event) => {
+  const LIMIT = 50;
+
+  const fileChangeHandler = event => {
+    event.persist();
+    let reader = new FileReader();
+    if (event.target.files[0].size > LIMIT * 1024) return;
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+      reader.addEventListener('loadend', () => {
+        props.changeHandler(event, props.profile, 'profile', event.target.name, reader.result);
+      });
+    }
+  };
+
+  const submitHandler = event => {
     event.preventDefault();
     props.refreshUser(`/api/profile/refresh-user`, props.profile);
     props.resetHandler(props.profile, 'profile');
@@ -93,12 +105,15 @@ const UserData = props => {
   return (
     <UserBody>
       <Container>
-        <UserForm onSubmit={submitHandler} encType="multipart/form-data">
-          <UserAvatar title="Загрузите изображение">
-            <UserAvatarInput type="file" name="avatar" data-type="avatar" data-url={url} multiple={false} onChange={handler}/>
-            <UserAvatarImage src={url} alt=""/>
-            <UserAvatarIcon src={AddIcon} alt=""/>
-          </UserAvatar>
+        <UserForm onSubmit={submitHandler}>
+          <UserAvatarWrapper>
+            <UserAvatar title="Загрузите изображение" onMouseOver={() => setNote(true)} onMouseOut={() => setNote(false)}>
+              <UserAvatarInput type="file" name="avatar" multiple={false} onChange={fileChangeHandler} accept="image/*"/>
+              <UserAvatarImage src={props.profile.formControls.avatar.value || DefaultAvatar} alt=""/>
+              <UserAvatarIcon src={AddIcon} alt=""/>
+            </UserAvatar>
+            {note && <UserAvatarNote>Разрешены изображения размером до {LIMIT} KB</UserAvatarNote>}
+          </UserAvatarWrapper>
           <UserAnketa>
             <UserAnketaTitle>{props.profile.title}</UserAnketaTitle>
             {renderInputs()}
@@ -120,7 +135,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeHandler: (event, form, formName, controlName) => dispatch(changeHandler(event, form, formName, controlName)),
+    changeHandler: (event, form, formName, controlName, file) => dispatch(changeHandler(event, form, formName, controlName, file)),
     addData: (form, formName, data) => dispatch(addData(form, formName, data)),
     refreshUser: (url, form) => dispatch(refreshUser(url, form)),
     resetHandler: (form, formName) => dispatch(resetHandler(form, formName)),
