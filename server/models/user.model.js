@@ -13,7 +13,7 @@ const schema = new Schema({
   family: {type: String},
   status: {type: String},
   hobby: {type: String},
-  avatar: {data: Buffer, contentType: String}
+  avatar: {type: String}
 });
 
 module.exports = model('User', schema);

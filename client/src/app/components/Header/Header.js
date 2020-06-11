@@ -1,6 +1,14 @@
 import React, {useRef} from 'react';
 import Container from "../Container/Container";
-import {HeaderAvatar, HeaderBlock, HeaderBody, HeaderBtn, HeaderLogo, HeaderName} from "./_styles/header.style";
+import {
+  HeaderAvatar,
+  HeaderAvatarImage,
+  HeaderBlock,
+  HeaderBody,
+  HeaderBtn,
+  HeaderLogo,
+  HeaderName
+} from "./_styles/header.style";
 import Search from "./chunks/Search";
 import {useSmoothScroll} from "../../hooks/useSmoothScroll";
 import {connect} from "react-redux";
@@ -9,6 +17,7 @@ import Spinner from "../Spinner/Spinner";
 import {toggleNav} from "../../store/actions/common";
 import Nav from "./chunks/Nav";
 import {useClickAway} from "react-use";
+import DefaultIcon from "../../../img/user.svg";
 
 const Header = props => {
   const {ref, scroll} = useSmoothScroll();
@@ -20,7 +29,9 @@ const Header = props => {
   const authArea = props.auth ?
     <HeaderBlock onClick={props.toggleNav.bind(null, !props.navBar)} ref={navRef} flex={true}>
       <HeaderName>{props.user.name}</HeaderName>
-      <HeaderAvatar/>
+      <HeaderAvatar>
+        <HeaderAvatarImage src={props.profile.formControls.avatar.value || DefaultIcon} alt=""/>
+      </HeaderAvatar>
       {props.navBar && <Nav/>}
     </HeaderBlock> :
     <HeaderBlock>
@@ -42,9 +53,10 @@ const Header = props => {
 };
 
 function mapStateToProps(state) {
+  const {profile} = state.forms;
   const {auth, user, loading} = state.auth;
   const {navBar} = state.common;
-  return {auth, user, loading, navBar};
+  return {auth, user, loading, navBar, profile};
 }
 
 function mapDispatchToProps(dispatch) {

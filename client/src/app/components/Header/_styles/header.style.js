@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {NavLink} from "react-router-dom";
 import Icon from "../../../../img/favicon.png";
-import UserIcon from "../../../../img/user.svg";
 
 export const HeaderBody = styled.header`
   position: fixed;
@@ -54,10 +53,7 @@ export const HeaderAvatar = styled.div`
   height: 30px;
   margin-left: 10px;
   border-radius: 50%;
-  background-image: url(${UserIcon});
-  background-repeat: no-repeat;
-  background-position:50% 50%;
-  background-size: 30px auto;
   overflow: hidden;
   cursor: pointer;
 `;
+export const HeaderAvatarImage = styled.img``;

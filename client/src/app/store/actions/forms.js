@@ -33,14 +33,13 @@ function validateControl(form, value, validation) {
   return isValid;
 }
 
-export function changeHandler(event, form, formName, controlName) {
+export function changeHandler(event, form, formName, controlName, file) {
   return dispatch => {
     const clonedForm = {...form};
     const control = clonedForm.formControls[controlName];
 
-    if (control.type === 'file') {
-      control.value = event.target.files[0];
-      console.log(1, event.target.files[0]);
+    if (file) {
+      control.value = file;
     } else {
       control.value = control.trim ? event.target.value.trim() : event.target.value;
     }

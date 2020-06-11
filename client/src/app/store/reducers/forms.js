@@ -1,5 +1,4 @@
 import {FORM_CHANGE} from "../../utils/actions";
-import DefaultAvatar from "../../../img/user.svg";
 
 const initialState = {
   login: {
@@ -121,13 +120,14 @@ const initialState = {
     isFormTouched: false,
     formControls: {
       avatar: {
-        value: DefaultAvatar,
+        value: '',
         type: 'file',
         label: 'Аватар',
         errorMessage: '',
         valid: true,
         touched: false,
         trim: false,
+        formData: null
       },
       nickname: {
         value: '',
