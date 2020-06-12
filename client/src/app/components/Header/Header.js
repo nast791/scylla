@@ -30,7 +30,7 @@ const Header = props => {
     <HeaderBlock onClick={props.toggleNav.bind(null, !props.navBar)} ref={navRef} flex={true}>
       <HeaderName>{props.user.name}</HeaderName>
       <HeaderAvatar>
-        <HeaderAvatarImage src={props.profile.formControls.avatar.value || DefaultIcon} alt=""/>
+        <HeaderAvatarImage src={props.user.avatar || DefaultIcon} alt=""/>
       </HeaderAvatar>
       {props.navBar && <Nav/>}
     </HeaderBlock> :
@@ -53,10 +53,9 @@ const Header = props => {
 };
 
 function mapStateToProps(state) {
-  const {profile} = state.forms;
   const {auth, user, loading} = state.auth;
   const {navBar} = state.common;
-  return {auth, user, loading, navBar, profile};
+  return {auth, user, loading, navBar};
 }
 
 function mapDispatchToProps(dispatch) {

@@ -13,15 +13,15 @@ const Layout = props => {
 
   return (
     <React.Fragment>
-      <Body>{props.children}</Body>
+      {(props.auth || props.auth === false) && <Body>{props.children}</Body>}
       {props.popup && <Popup/>}
     </React.Fragment>
   );
 };
 
 function mapStateToProps(state) {
-  const {popup} = state.auth;
-  return {popup};
+  const {popup, auth} = state.auth;
+  return {popup, auth};
 }
 
 function mapDispatchToProps(dispatch) {

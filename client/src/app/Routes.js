@@ -6,15 +6,17 @@ import Profile from "./components/_pages/Profile/Profile";
 import Editor from "./components/_pages/Editor/Editor";
 import Note from "./components/_pages/Note/Note";
 import {connect} from "react-redux";
+import Account from "./components/_pages/Account/Account";
 
 const Routes = props => {
   return (
     <Layout>
       <Switch>
         <Route path="/" exact component={Home}/>
+        <Route path="/:id" exact component={Account}/>
         <Route path="/editor/:id" exact component={Editor}/>
         <Route path="/note/:id" exact component={Note}/>
-        <Route path="/profile" exact render={() => (props.auth ? <Profile/> : props.auth != null ? <Redirect to="/"/> : null) }/>
+        <Route path="/:id/profile" exact render={() => (props.auth ? <Profile/> : <Redirect to="/"/>) }/>
         <Redirect to="/"/>
       </Switch>
     </Layout>

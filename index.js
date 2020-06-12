@@ -20,6 +20,7 @@ app.use(express.json({extended: true}));
 app.use(session({secret: config.SESSION_SECRET, resave: false, saveUninitialized: false, store}));
 app.use('/api/auth', require('./server/routes/auth.routes'));
 app.use('/api/profile', require('./server/routes/profile.routes'));
+app.use('/api/account', require('./server/routes/account.routes'));
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'build')));
