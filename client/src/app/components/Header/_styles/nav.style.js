@@ -12,6 +12,7 @@ export const NavBody = styled.ul`
   border-radius: 5px;
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0,0,0,0.2);
+  z-index: 50;
 `;
 
 export const NavItem = styled.li`

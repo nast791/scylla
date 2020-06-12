@@ -7,3 +7,7 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const NAV_TOGGLE = 'NAV_TOGGLE';
+export const ACCOUNT_SUCCESS = 'ACCOUNT_SUCCESS';
+export const ACCOUNT_LOADING = 'ACCOUNT_LOADING';
+export const ACCOUNT_ERROR = 'ACCOUNT_ERROR';
+export const ACCOUNT_RESET = 'ACCOUNT_RESET';
