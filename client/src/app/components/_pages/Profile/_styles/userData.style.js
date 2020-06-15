@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ArrowIcon from "../../../../../img/arrow-down.svg";
+import mediaQueries from "../../../../utils/mediaQueries";
 
 export const UserBody = styled.section`
   padding-top: 80px;
@@ -7,20 +8,31 @@ export const UserBody = styled.section`
 export const UserForm = styled.form`
   display: flex;
   justify-content: space-between;
+  
+  @media ${mediaQueries.tabletL} { 
+    display: block;
+  }
 `;
 export const UserAvatarWrapper = styled.div`
   margin-right: 5%;
+  
+  @media ${mediaQueries.tabletL} { 
+    margin: 0 auto;
+  }
 `;
 export const UserAvatar = styled.label`
-display: block;
+  display: block;
   position: relative;
-  width: 350px;
-  min-width: 350px;
-  height: 350px;
-
+  width: 250px;
+  min-width: 250px;
+  height: 250px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
+  
+  @media ${mediaQueries.tabletL} { 
+    margin: 0 auto;
+  }
 `;
 export const UserAvatarInput = styled.input`
   display: none;
@@ -45,6 +57,10 @@ export const UserAnketa = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex: 1;
+  
+  @media ${mediaQueries.tabletL} { 
+    margin-top: 30px;
+  }
 `;
 export const UserAnketaTitle = styled.h1`
   margin-bottom: 30px;
@@ -62,10 +78,22 @@ export const UserAnketaItem = styled.label`
   &[data-hr="true"] {
     margin-top: 50px;
   }
+  
+  @media ${mediaQueries.mobileL} { 
+    display: block;
+    
+    &[data-hr="true"] {
+      margin-top: 30px;
+    }
+  }
 `;
 export const UserAnketaLabel = styled.p`
   width: 200px;
   min-width: 200px;
+  
+  @media ${mediaQueries.mobileL} { 
+    margin-bottom: 5px;
+  }
 `;
 export const UserAnketaGroup = styled.div`
   display: flex;
@@ -207,5 +235,9 @@ export const UserAnketaBtn = styled.button`
   }
   &:active {
     box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  @media ${mediaQueries.mobileL} { 
+    margin-left: 0;
   }
 `;
