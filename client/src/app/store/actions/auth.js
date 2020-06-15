@@ -3,11 +3,11 @@ import {
   AUTH_LOADING,
   AUTH_LOGIN,
   AUTH_LOGOUT,
-  AUTH_SUCCESS, POPUP_CLOSE, POPUP_OPEN
+  AUTH_SUCCESS, POPUP_CLOSE, POPUP_OPEN, USERS_SUCCESS
 } from "../../utils/actions";
 import {useFetch} from "../../hooks/useFetch";
 
-export function registerUser(url, form) {
+export function registerUser(url, form, redirect) {
   return async dispatch => {
     dispatch(authError(false));
     const body = {};
@@ -22,6 +22,7 @@ export function registerUser(url, form) {
         dispatch(authSuccess(data.user));
         dispatch(authLogin(true));
         dispatch(popupClose());
+        redirect.push(`/${data.user.nickname}`);
       } else if (data.errors) { // register
         dispatch(authError(data.errors))
       } else {
@@ -87,6 +88,24 @@ export function authUser(url) {
   }
 }
 
+export function getAllUsers(url) {
+  return async dispatch => {
+    dispatch(authLoading(true));
+    try {
+      const data = await useFetch(url).then(res => res.json());
+      console.log(data);
+      if (data.users) {
+        dispatch(getUsersSuccess(data.users));
+      }
+      dispatch(authLoading(false));
+    } catch (e) {
+      dispatch(authLogout());
+      console.log(e);
+      throw e;
+    }
+  }
+}
+
 export function logoutAuth(url) {
   return async dispatch => {
     try {
@@ -103,6 +122,13 @@ export function authSuccess(value, result = null) {
   return {
     type: AUTH_SUCCESS,
     value, result
+  }
+}
+
+export function getUsersSuccess(value) {
+  return {
+    type: USERS_SUCCESS,
+    value
   }
 }
 

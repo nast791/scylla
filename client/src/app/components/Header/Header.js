@@ -13,7 +13,6 @@ import Search from "./chunks/Search";
 import {useSmoothScroll} from "../../hooks/useSmoothScroll";
 import {connect} from "react-redux";
 import {popupOpen} from "../../store/actions/auth";
-import Spinner from "../Spinner/Spinner";
 import {toggleNav} from "../../store/actions/common";
 import Nav from "./chunks/Nav";
 import {useClickAway} from "react-use";
@@ -44,9 +43,9 @@ const Header = props => {
       <Container flex={true}>
         <HeaderBlock flex={true}>
           <HeaderLogo to="/" exact ref={ref} onClick={scroll}/>
-          <Search/>
+          {/*<Search/>*/}
         </HeaderBlock>
-        {props.loading ? <Spinner/> : authArea}
+        {authArea}
       </Container>
     </HeaderBody>
   );

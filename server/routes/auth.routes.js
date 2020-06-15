@@ -17,6 +17,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/all', async (req, res) => {
+  try {
+    User.find({}, (err, user) => {
+      const users = user.map(it => it.nickname);
+      res.json({users});
+    });
+  } catch (e) {
+    res.status(500).json({message: 'Ошибка'});
+  }
+});
+
 router.post('/register', registerValidators, async (req, res) => {
   try {
     const errors = validationResult(req);

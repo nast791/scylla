@@ -4,11 +4,12 @@ import {
   AUTH_LOGIN,
   AUTH_LOGOUT,
   AUTH_SUCCESS, POPUP_CLOSE,
-  POPUP_OPEN
+  POPUP_OPEN, USERS_SUCCESS
 } from "../../utils/actions";
 
 const initialState = {
   user: null,
+  allUsers: null,
   loading: false,
   errors: false,
   auth: null,
@@ -21,6 +22,10 @@ export default function auth(state = initialState, action) {
     case AUTH_SUCCESS:
       return {
         ...state, user: action.value, result: action.result
+      };
+    case USERS_SUCCESS:
+      return {
+        ...state, allUsers: action.value
       };
     case AUTH_LOGIN:
       return {
